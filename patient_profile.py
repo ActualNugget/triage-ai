@@ -13,6 +13,7 @@ df = pd.read_excel(input_conditions_path)
 #turn each possible case into an object
 possible_case = namedtuple ("case", ["condition", "priority", "facilities", "in_or_out"])
 cases = []
+facilities_list = []
 
 for index, row in df.iterrows():
     row = df.iloc[index]
@@ -22,6 +23,10 @@ for index, row in df.iterrows():
     in_or_out = int(row['In/outpatient'])
     temp = possible_case(condition, priority, facilities, in_or_out)
     cases.append(temp)
+    for facility in facilities:
+        facilities_list.append(facility)
+
+facilities_list = set(facilities_list)
 
 #generate random patient cases
 N = len(cases)
@@ -47,7 +52,9 @@ def generate_random_patient(num_cases, cases_list):
     
     return patient_profile
 
+p1_cases = [case for case in cases if case.priority == 1]
+p2_cases = [case for case in cases if case.priority == 2]
+p3_cases = [case for case in cases if case.priority == 3]
+p4_cases = [case for case in cases if case.priority == 4]
 
-random_patient = generate_random_patient(N, cases)
-
-print(random_patient)
+print(p1_cases)
